@@ -1,0 +1,15 @@
+name: Build Dylib
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile
+        run: |
+          clang -dynamiclib -arch arm64 -isysroot $(xcrun --sdk iphoneos --show-sdk-path) KeySystem.m -o KeySystem.dylib -framework UIKit -framework Foundation
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: KeySystem-dylib
+          path: KeySystem.dylib
